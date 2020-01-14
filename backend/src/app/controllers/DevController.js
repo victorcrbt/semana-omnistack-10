@@ -14,15 +14,19 @@ class DevController {
 
     const techsArray = techs.split(',').map(tech => tech.trim());
 
-    const dev = await Dev.create({
-      name,
-      bio,
-      avatar_url,
-      github_username,
-      techs: techsArray,
-    });
+    try {
+      const dev = await Dev.create({
+        name,
+        bio,
+        avatar_url,
+        github_username,
+        techs: techsArray,
+      });
 
-    return res.status(201).json(dev);
+      return res.status(201).json(dev);
+    } catch (error) {
+      return res.status(500).json({ error: error.message });
+    }
   }
 }
 

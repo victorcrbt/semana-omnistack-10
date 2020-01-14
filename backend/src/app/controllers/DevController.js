@@ -3,6 +3,12 @@ import axios from 'axios';
 import Dev from '../models/Dev';
 
 class DevController {
+  async index(req, res) {
+    const devs = await Dev.find();
+
+    return res.json(devs);
+  }
+
   async store(req, res) {
     const { github_username, techs, latitude, longitude } = req.body;
 

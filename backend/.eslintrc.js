@@ -16,6 +16,8 @@ module.exports = {
   rules: {
     'prettier/prettier': 'error',
     'object-curly-newline': 'off',
+    curly: 'off',
+    'nonblock-statement-body-position': 'off',
     camelcase: 'off',
     'no-console': 'off',
     'class-methods-use-this': 'off',

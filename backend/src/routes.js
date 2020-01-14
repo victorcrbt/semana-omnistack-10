@@ -1,7 +1,9 @@
 import { Router } from 'express';
 
+import DevController from './app/controllers/DevController';
+
 const routes = Router();
 
-routes.get('/', (req, res) => res.send('Hello, World!'));
+routes.post('/devs', DevController.store);
 
 export default routes;

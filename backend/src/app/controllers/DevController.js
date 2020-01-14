@@ -1,5 +1,6 @@
 import axios from 'axios';
 
+import parseStringAsArray from '../../utils/parseStringAsArray';
 import Dev from '../models/Dev';
 
 class DevController {
@@ -23,7 +24,7 @@ class DevController {
 
     const { name = login, login, bio, avatar_url } = response.data; // eslint-disable-line
 
-    const techsArray = techs.split(',').map(tech => tech.trim());
+    const techsArray = parseStringAsArray(techs, ',');
 
     const location = {
       type: 'Point',

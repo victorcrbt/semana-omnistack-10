@@ -6,6 +6,11 @@ class DevController {
   async store(req, res) {
     const { github_username, techs, latitude, longitude } = req.body;
 
+    const devExists = await Dev.findOne({ github_username });
+
+    if (devExists)
+      return res.status(409).json({ error: 'Dev already registered.' });
+
     const response = await axios.get(
       `https://api.github.com/users/${github_username}` // eslint-disable-line
     );

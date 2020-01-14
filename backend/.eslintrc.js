@@ -15,6 +15,8 @@ module.exports = {
   },
   rules: {
     'prettier/prettier': 'error',
+    'object-curly-newline': 'off',
+    camelcase: 'off',
     'no-console': 'off',
     'class-methods-use-this': 'off',
     'no-param-reassign': 'off',

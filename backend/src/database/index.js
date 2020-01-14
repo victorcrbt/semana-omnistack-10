@@ -1,21 +1,11 @@
-import Sequelize from 'sequelize';
+import mongoose from 'mongoose';
 
-import config from '../config/database';
-
-const models = [];
-
-class Database {
-  constructor() {
-    this.init();
+mongoose.connect(
+  'mongodb+srv://admin:admin@cluster0-re36c.mongodb.net/test?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
   }
+);
 
-  init() {
-    this.connection = new Sequelize(config);
-
-    models
-      .map(model => model.init(this.connection))
-      .map(model => model.associate && model.associate(this.connection.models));
-  }
-}
-
-export default new Database();
+export default mongoose;

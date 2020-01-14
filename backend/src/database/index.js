@@ -1,11 +1,8 @@
 import mongoose from 'mongoose';
 
-mongoose.connect(
-  'mongodb+srv://admin:admin@cluster0-re36c.mongodb.net/test?retryWrites=true&w=majority',
-  {
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-  }
-);
+mongoose.connect('mongodb://localhost/omnistack10', {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+});
 
 export default mongoose;

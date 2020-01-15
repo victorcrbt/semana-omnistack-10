@@ -17,33 +17,38 @@ class DevController {
 
     if (devExists)
       return res.status(409).json({ error: 'Dev already registered.' });
-
-    const response = await axios.get(
-      `https://api.github.com/users/${github_username}` // eslint-disable-line
-    );
-
-    const { name, login, bio, avatar_url } = response.data; // eslint-disable-line
-
-    const techsArray = parseStringAsArray(techs, ',');
-
-    const location = {
-      type: 'Point',
-      coordinates: [longitude, latitude],
-    };
-
     try {
-      const dev = await Dev.create({
-        name: name || github_username,
-        bio,
-        avatar_url,
-        github_username,
-        techs: techsArray,
-        location,
-      });
+      const response = await axios.get(
+        `https://api.github.com/users/${github_username}` // eslint-disable-line
+      );
 
-      return res.status(201).json(dev);
+      if (response.status === 404) return console.log('erro');
+
+      const { name, login, bio, avatar_url } = response.data; // eslint-disable-line
+
+      const techsArray = parseStringAsArray(techs, ',');
+
+      const location = {
+        type: 'Point',
+        coordinates: [longitude, latitude],
+      };
+
+      try {
+        const dev = await Dev.create({
+          name: name || github_username,
+          bio,
+          avatar_url,
+          github_username,
+          techs: techsArray,
+          location,
+        });
+
+        return res.status(201).json(dev);
+      } catch (error) {
+        return res.status(500).json({ error: error.message });
+      }
     } catch (error) {
-      return res.status(500).json({ error: error.message });
+      return res.status(404).json({ error: 'GitHub user not found.' });
     }
   }
 }

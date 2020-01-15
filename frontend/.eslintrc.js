@@ -49,6 +49,7 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'off',
     'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-props-no-spreading': 'off',
+    'jsx-a11y/label-has-associated-control': 'off',
   },
   settings: {
     'import/resolver': {

@@ -44,12 +44,16 @@ module.exports = {
     'import/prefer-default-export': 'off',
     'global-require': 'off',
     'no-param-reassign': 'off',
+    'arrow-parens': 'off',
+    'implicit-arrow-linebreak': 'off',
     camelcase: 'off',
     'no-console': 'off',
     'react-hooks/rules-of-hooks': 'off',
     'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-props-no-spreading': 'off',
     'jsx-a11y/label-has-associated-control': 'off',
+    'function-paren-newline': 'off',
+    'react/jsx-curly-newline': 'off',
   },
   settings: {
     'import/resolver': {

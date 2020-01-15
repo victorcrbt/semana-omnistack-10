@@ -25,6 +25,8 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 'error',
+    'comma-dangle': 'off',
+    'import/no-extraneous-dependencies': 'off',
     'react/jsx-filename-extension': [
       'warn',
       {
@@ -35,7 +37,7 @@ module.exports = {
       'warn',
       {
         newlinesBetween: 'always',
-        groups: ['module', '/^@shared/', ['parent', 'sibling', 'index']],
+        groups: ['module', '/^~/', ['parent', 'sibling', 'index']],
         alphabetize: { order: 'asc', ignoreCase: true },
       },
     ],
@@ -47,5 +49,12 @@ module.exports = {
     'react-hooks/rules-of-hooks': 'off',
     'react-hooks/exhaustive-deps': 'warn',
     'react/jsx-props-no-spreading': 'off',
+  },
+  settings: {
+    'import/resolver': {
+      'babel-plugin-root-import': {
+        rootPathSuffix: 'src',
+      },
+    },
   },
 };

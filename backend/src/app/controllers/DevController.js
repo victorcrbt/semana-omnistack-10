@@ -22,7 +22,7 @@ class DevController {
       `https://api.github.com/users/${github_username}` // eslint-disable-line
     );
 
-    const { name = login, login, bio, avatar_url } = response.data; // eslint-disable-line
+    const { name, login, bio, avatar_url } = response.data; // eslint-disable-line
 
     const techsArray = parseStringAsArray(techs, ',');
 
@@ -33,7 +33,7 @@ class DevController {
 
     try {
       const dev = await Dev.create({
-        name,
+        name: name || github_username,
         bio,
         avatar_url,
         github_username,

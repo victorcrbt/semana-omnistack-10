@@ -1,25 +1,16 @@
 import React from 'react';
+import { StatusBar } from 'react-native';
 import { registerRootComponent } from 'expo';
-import { StyleSheet, Text, View } from 'react-native';
 
-import Test from '~/screens/Test';
+import Routes from './routes';
 
 function App() {
   return (
-    <View style={styles.container}>
-      <Text>Victor Batalha</Text>
-      <Test />
-    </View>
+    <>
+      <StatusBar barStyle="light-content" backgroundColor="#7d40e7" />
+      <Routes />
+    </>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#7159c1',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
 
 export default registerRootComponent(App);

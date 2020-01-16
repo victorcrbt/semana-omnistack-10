@@ -1,9 +1,10 @@
 import React from 'react';
+import { registerRootComponent } from 'expo';
 import { StyleSheet, Text, View } from 'react-native';
 
 import Test from '~/screens/Test';
 
-export default function App() {
+function App() {
   return (
     <View style={styles.container}>
       <Text>Victor Batalha</Text>
@@ -20,3 +21,5 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 });
+
+export default registerRootComponent(App);

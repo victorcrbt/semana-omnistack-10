@@ -7,7 +7,7 @@ import {
 
 import { Map, Avatar, DevInfo, DevName, DevBio, DevTechs } from './styles';
 
-export default function Main() {
+export default function Main({ navigation }) {
   const [location, setLocation] = useState(null);
 
   useEffect(() => {
@@ -44,7 +44,11 @@ export default function Main() {
           }}
         />
 
-        <Callout>
+        <Callout
+          onPress={() => {
+            navigation.navigate('Profile', { github_username: 'victorcrbt' });
+          }}
+        >
           <DevInfo>
             <DevName>Victor Batalha</DevName>
             <DevBio>

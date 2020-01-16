@@ -1,21 +1,20 @@
-import mongoose from 'mongoose';
+import Sequelize, { Model } from 'sequelize';
 
-import PointSchema from './utils/PointSchema';
+class Dev extends Model {
+  static init(sequelize) {
+    super.init(
+      {
+        github_username: Sequelize.STRING,
+        bio: Sequelize.TEXT,
+        avatar_url: Sequelize.STRING,
+        techs: Sequelize.ARRAY(Sequelize.STRING),
+        location: Sequelize.GEOGRAPHY,
+      },
+      { sequelize }
+    );
 
-const DevSchema = new mongoose.Schema({
-  name: String,
-  github_username: {
-    type: String,
-    index: true,
-    unique: true,
-  },
-  bio: String,
-  avatar_url: String,
-  techs: [String],
-  location: {
-    type: PointSchema,
-    index: '2dsphere',
-  },
-});
+    return this;
+  }
+}
 
-export default mongoose.model('Dev', DevSchema);
+export default Dev;

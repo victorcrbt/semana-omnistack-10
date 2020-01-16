@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { Marker, Callout } from 'react-native-maps';
+
 import {
   requestPermissionsAsync,
   getCurrentPositionAsync,
 } from 'expo-location';
 
+import api from '../../services/api';
+
+import MapMarker from './MapMarker';
 import {
   Map,
   Avatar,
@@ -20,6 +23,8 @@ import {
 
 export default function Main({ navigation }) {
   const [location, setLocation] = useState(null);
+  const [devs, setDevs] = useState([]);
+  const [techs, setTechs] = useState('');
 
   useEffect(() => {
     (async function loadInitialPosition() {
@@ -34,13 +39,41 @@ export default function Main({ navigation }) {
       const { latitude, longitude } = coords;
 
       setLocation({
-        latitude: -29.9001409,
-        longitude: -50.262451,
+        latitude,
+        longitude,
         latitudeDelta: 0.04,
         longitudeDelta: 0.04,
       });
     })();
   }, []);
+
+  function handleRegionChanged(region) {
+    setLocation(region);
+  }
+
+  async function loadDevs() {
+    try {
+      const { latitude, longitude } = location;
+
+      const response = await api.get('/search', {
+        params: {
+          latitude,
+          longitude,
+          techs,
+        },
+      });
+
+      setDevs([...response.data]);
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+  function showGitHubProfile(github_username) {
+    navigation.navigate('Profile', {
+      github_username,
+    });
+  }
 
   if (!location) {
     return null;
@@ -48,30 +81,17 @@ export default function Main({ navigation }) {
 
   return (
     <>
-      <Map initialRegion={location}>
-        <Marker coordinate={{ latitude: -29.9001409, longitude: -50.262451 }}>
-          <Avatar
-            source={{
-              uri:
-                'https://avatars1.githubusercontent.com/u/26396515?s=460&v=4',
-            }}
+      <Map
+        onRegionChangeComplete={handleRegionChanged}
+        initialRegion={location}
+      >
+        {devs.map(dev => (
+          <MapMarker
+            dev={dev}
+            key={dev._id}
+            onPress={() => showGitHubProfile(dev.github_username)}
           />
-
-          <Callout
-            onPress={() => {
-              navigation.navigate('Profile', { github_username: 'victorcrbt' });
-            }}
-          >
-            <DevInfo>
-              <DevName>Victor Batalha</DevName>
-              <DevBio>
-                Desenvolvedor Fullstack Javascript. NodeJS, ReactJS e React
-                Native. Sempre buscando aprimorar os conhecimentos!
-              </DevBio>
-              <DevTechs>Node.js, ReactJS, React Native</DevTechs>
-            </DevInfo>
-          </Callout>
-        </Marker>
+        ))}
       </Map>
 
       <SearchForm>
@@ -79,9 +99,11 @@ export default function Main({ navigation }) {
           placeholder="Buscar devs por techs..."
           autoCapitalize="words"
           autoCorrect={false}
+          value={techs}
+          onChangeText={setTechs}
         />
 
-        <SearchButton>
+        <SearchButton onPress={loadDevs}>
           <SearchButtonIcon />
         </SearchButton>
       </SearchForm>

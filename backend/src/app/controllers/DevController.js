@@ -11,7 +11,7 @@ class DevController {
   }
 
   async store(req, res) {
-    const { github_username, techs, latitude, longitude } = req.body;
+    const { github_username, techs, latitude, longitude, password } = req.body;
 
     const devExists = await Dev.findOne({ where: { github_username } });
 
@@ -40,6 +40,7 @@ class DevController {
           github_username,
           techs: techsArray,
           location,
+          password,
         });
 
         return res.status(201).json(dev);

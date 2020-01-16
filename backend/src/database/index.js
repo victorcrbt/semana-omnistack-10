@@ -1,8 +1,21 @@
-import mongoose from 'mongoose';
+import Sequelize from 'sequelize';
 
-mongoose.connect('mongodb://localhost/omnistack10', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-});
+import Dev from '../app/models/Dev';
 
-export default mongoose;
+import config from '../config/database';
+
+const models = [Dev];
+
+class Database {
+  constructor() {
+    this.init();
+  }
+
+  init() {
+    this.connection = new Sequelize(config);
+
+    models.map(model => model.init(this.connection));
+  }
+}
+
+export default new Database();

@@ -5,7 +5,18 @@ import {
   getCurrentPositionAsync,
 } from 'expo-location';
 
-import { Map, Avatar, DevInfo, DevName, DevBio, DevTechs } from './styles';
+import {
+  Map,
+  Avatar,
+  DevInfo,
+  DevName,
+  DevBio,
+  DevTechs,
+  SearchForm,
+  SearchInput,
+  SearchButton,
+  SearchButtonIcon,
+} from './styles';
 
 export default function Main({ navigation }) {
   const [location, setLocation] = useState(null);
@@ -36,29 +47,44 @@ export default function Main({ navigation }) {
   }
 
   return (
-    <Map initialRegion={location}>
-      <Marker coordinate={{ latitude: -29.9001409, longitude: -50.262451 }}>
-        <Avatar
-          source={{
-            uri: 'https://avatars1.githubusercontent.com/u/26396515?s=460&v=4',
-          }}
+    <>
+      <Map initialRegion={location}>
+        <Marker coordinate={{ latitude: -29.9001409, longitude: -50.262451 }}>
+          <Avatar
+            source={{
+              uri:
+                'https://avatars1.githubusercontent.com/u/26396515?s=460&v=4',
+            }}
+          />
+
+          <Callout
+            onPress={() => {
+              navigation.navigate('Profile', { github_username: 'victorcrbt' });
+            }}
+          >
+            <DevInfo>
+              <DevName>Victor Batalha</DevName>
+              <DevBio>
+                Desenvolvedor Fullstack Javascript. NodeJS, ReactJS e React
+                Native. Sempre buscando aprimorar os conhecimentos!
+              </DevBio>
+              <DevTechs>Node.js, ReactJS, React Native</DevTechs>
+            </DevInfo>
+          </Callout>
+        </Marker>
+      </Map>
+
+      <SearchForm>
+        <SearchInput
+          placeholder="Buscar devs por techs..."
+          autoCapitalize="words"
+          autoCorrect={false}
         />
 
-        <Callout
-          onPress={() => {
-            navigation.navigate('Profile', { github_username: 'victorcrbt' });
-          }}
-        >
-          <DevInfo>
-            <DevName>Victor Batalha</DevName>
-            <DevBio>
-              Desenvolvedor Fullstack Javascript. NodeJS, ReactJS e React
-              Native. Sempre buscando aprimorar os conhecimentos!
-            </DevBio>
-            <DevTechs>Node.js, ReactJS, React Native</DevTechs>
-          </DevInfo>
-        </Callout>
-      </Marker>
-    </Map>
+        <SearchButton>
+          <SearchButtonIcon />
+        </SearchButton>
+      </SearchForm>
+    </>
   );
 }

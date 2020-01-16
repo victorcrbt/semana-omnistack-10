@@ -5,7 +5,7 @@ import Dev from '../models/Dev';
 
 class DevController {
   async index(req, res) {
-    const devs = await Dev.find();
+    const devs = await Dev.findAll();
 
     return res.json(devs);
   }
@@ -13,16 +13,15 @@ class DevController {
   async store(req, res) {
     const { github_username, techs, latitude, longitude } = req.body;
 
-    const devExists = await Dev.findOne({ github_username });
+    const devExists = await Dev.findOne({ where: { github_username } });
 
     if (devExists)
       return res.status(409).json({ error: 'Dev already registered.' });
+
     try {
       const response = await axios.get(
         `https://api.github.com/users/${github_username}` // eslint-disable-line
       );
-
-      if (response.status === 404) return console.log('erro');
 
       const { name, login, bio, avatar_url } = response.data; // eslint-disable-line
 
@@ -35,7 +34,7 @@ class DevController {
 
       try {
         const dev = await Dev.create({
-          name: name || github_username,
+          name,
           bio,
           avatar_url,
           github_username,
@@ -48,7 +47,10 @@ class DevController {
         return res.status(500).json({ error: error.message });
       }
     } catch (error) {
-      return res.status(404).json({ error: 'GitHub user not found.' });
+      if (error.response.status === 404)
+        return res.status(404).json({ error: 'GitHub user not found.' });
+
+      return res.status(500).json({ error: 'Internal server error.' });
     }
   }
 }

@@ -34,7 +34,7 @@ class DevController {
 
       try {
         const dev = await Dev.create({
-          name,
+          name: name || login,
           bio,
           avatar_url,
           github_username,

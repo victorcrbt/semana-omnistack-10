@@ -35,6 +35,8 @@ export default function LoginForm() {
         signed: true,
       });
 
+      localStorage.setItem('dev-radar:auth', JSON.stringify(response.data));
+
       setUserName('');
       setPassword('');
     } catch (err) {

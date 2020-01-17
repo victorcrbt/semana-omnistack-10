@@ -34,7 +34,7 @@ class DevController {
 
       try {
         const dev = await Dev.create({
-          name,
+          name: name || login,
           bio,
           avatar_url,
           github_username,
@@ -42,6 +42,13 @@ class DevController {
           location,
           password,
         });
+
+        const sendSocketMessageTo = req.io.findConnections(
+          { latitude, longitude },
+          techsArray
+        );
+
+        req.io.sendMessage(sendSocketMessageTo, 'new-dev', dev);
 
         return res.status(201).json(dev);
       } catch (error) {

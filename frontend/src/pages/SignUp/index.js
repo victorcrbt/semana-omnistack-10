@@ -8,10 +8,7 @@ export default function SignUp() {
   const [github_username, setGithubUsername] = useState('');
   const [password, setPassword] = useState('');
   const [techs, setTechs] = useState('');
-  const [location, setLocation] = useState({
-    latitude: '',
-    longitude: '',
-  });
+  const [location, setLocation] = useState(null);
   const [message, setMessage] = useState({
     status: false,
     type: '',
@@ -20,6 +17,8 @@ export default function SignUp() {
 
   useEffect(() => {
     function setCurrentLocation(position) {
+      if (location) return;
+
       const { latitude, longitude } = position.coords;
 
       setLocation({ ...location, latitude, longitude });
@@ -122,7 +121,7 @@ export default function SignUp() {
             <label htmlFor="latitude">Latitude</label>
             <input
               type="number"
-              value={location.latitude}
+              value={location?.latitude}
               onChange={e =>
                 setLocation({ ...location, latitude: e.target.value })
               }
@@ -136,7 +135,7 @@ export default function SignUp() {
             <label htmlFor="longitude">Longitude</label>
             <input
               type="number"
-              value={location.longitude}
+              value={location?.longitude}
               onChange={e =>
                 setLocation({ ...location, longitude: e.target.value })
               }

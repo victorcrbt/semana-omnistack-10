@@ -1,12 +1,15 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 
+import AuthContext from '~/AuthContext';
 import api from '~/services/api';
 
-import DevForm from './DevForm';
 import DevItem from './DevItem';
-import { Container, Sidebar, MainContent } from './styles';
+import LeftArea from './LeftArea';
+import { MainContent } from './styles';
 
 export default function Main() {
+  const { signed } = useContext(AuthContext);
+
   const [devs, setDevs] = useState([]);
   const [error, setError] = useState({
     status: false,
@@ -15,61 +18,27 @@ export default function Main() {
 
   useEffect(() => {
     async function fetchDevsFromApi() {
+      if (!signed) return;
+
       const response = await api.get('/devs');
 
       setDevs([...devs, ...response.data]);
     }
 
     fetchDevsFromApi();
-  }, []);
-
-  async function handleSubmit(github_username, techs, location) {
-    if (error.status === true) {
-      setError({ ...error, status: false, message: '' });
-    }
-
-    try {
-      const response = await api.post('/devs', {
-        github_username,
-        techs,
-        latitude: location.latitude,
-        longitude: location.longitude,
-      });
-
-      setDevs([...devs, response.data]);
-    } catch (err) {
-      if (err.response.status === 404) {
-        setError({
-          ...error,
-          status: true,
-          message: 'Usuário do GitHub não encontrado.',
-        });
-      } else {
-        setError({
-          ...error,
-          status: true,
-          message: 'Algo de errado aconteceu :/.',
-        });
-      }
-      throw Error();
-    }
-  }
+  }, [signed]);
 
   return (
-    <Container>
-      <Sidebar error={error.status}>
-        <strong>Cadastrar</strong>
+    <>
+      <LeftArea />
 
-        <DevForm onSubmit={handleSubmit} error={error} />
-      </Sidebar>
-
-      <MainContent>
+      <MainContent signed={signed}>
         <ul>
           {devs.map(dev => (
-            <DevItem key={dev._id} dev={dev} />
+            <DevItem key={dev._id} dev={dev} signed={signed} />
           ))}
         </ul>
       </MainContent>
-    </Container>
+    </>
   );
 }

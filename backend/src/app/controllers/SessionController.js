@@ -8,10 +8,10 @@ class SessionController {
 
     const dev = await Dev.findOne({ where: { github_username: username } });
 
-    if (!dev) return res.status(404).json({ error: 'Invalid credentials.' });
+    if (!dev) return res.status(401).json({ error: 'Invalid credentials.' });
 
     if (!(await dev.checkPassword(password)))
-      return res.status(404).json({ error: 'Invalid credentials.' });
+      return res.status(401).json({ error: 'Invalid credentials.' });
 
     const payload = {
       id: dev.id,

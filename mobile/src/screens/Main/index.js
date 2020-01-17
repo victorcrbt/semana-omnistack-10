@@ -5,16 +5,12 @@ import {
   getCurrentPositionAsync,
 } from 'expo-location';
 
-import api from '../../services/api';
+import api from '~/services/api';
+import { disconnect, connect, subscribeToNewDevs } from '~/services/socket';
 
 import MapMarker from './MapMarker';
 import {
   Map,
-  Avatar,
-  DevInfo,
-  DevName,
-  DevBio,
-  DevTechs,
   SearchForm,
   SearchInput,
   SearchButton,
@@ -51,6 +47,18 @@ export default function Main({ navigation }) {
     setLocation(region);
   }
 
+  useEffect(() => {
+    subscribeToNewDevs(dev => setDevs([...devs, dev]));
+  }, [devs]);
+
+  function setupWebsocket() {
+    disconnect();
+
+    const { latitude, longitude } = location;
+
+    connect(latitude, longitude, techs);
+  }
+
   async function loadDevs() {
     try {
       const { latitude, longitude } = location;
@@ -64,6 +72,7 @@ export default function Main({ navigation }) {
       });
 
       setDevs([...response.data]);
+      setupWebsocket();
     } catch (error) {
       console.log(error);
     }

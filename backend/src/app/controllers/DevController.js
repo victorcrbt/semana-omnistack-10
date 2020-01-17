@@ -43,6 +43,13 @@ class DevController {
           password,
         });
 
+        const sendSocketMessageTo = req.io.findConnections(
+          { latitude, longitude },
+          techsArray
+        );
+
+        req.io.sendMessage(sendSocketMessageTo, 'new-dev', dev);
+
         return res.status(201).json(dev);
       } catch (error) {
         return res.status(500).json({ error: error.message });

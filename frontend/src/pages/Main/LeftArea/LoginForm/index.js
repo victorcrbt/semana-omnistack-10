@@ -26,12 +26,11 @@ export default function LoginForm() {
     try {
       const response = await api.post('/sessions', { username, password });
 
-      const { username: github_username, token } = response.data;
-
-      api.defaults.headers.Authorization = `Bearer ${token}`;
+      api.defaults.headers.Authorization = `Bearer ${response.datatoken}`;
       context.setAuth({
         ...context,
-        github_username,
+        ...response.data,
+        github_username: response.data.username,
         signed: true,
       });
 

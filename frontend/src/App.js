@@ -11,6 +11,7 @@ function App() {
   const [auth, setAuth] = useState({
     signed: false,
     name: '',
+    bio: '',
     github_username: '',
     avatar_url: '',
     techs: [],
@@ -30,8 +31,10 @@ function App() {
       signed: true,
       name: devInfo.name,
       github_username: devInfo.username,
+      bio: devInfo.bio,
       avatar_url: devInfo.avatar_url,
       techs: devInfo.techs,
+      location: devInfo.location,
     });
   }, []);
 

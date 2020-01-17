@@ -15,6 +15,7 @@ class SessionController {
 
     const payload = {
       id: dev.id,
+      name: dev.name,
       username: dev.github_username,
       avatar_url: dev.avatar_url,
       techs: dev.techs,

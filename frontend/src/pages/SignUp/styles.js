@@ -118,4 +118,19 @@ export const Form = styled.form`
       background: #6931ca;
     }
   }
+
+  a {
+    margin-top: 10px;
+
+    color: #8e4dff;
+    font-size: 14px;
+    text-decoration: none;
+    text-align: center;
+    transition: color 0.2s;
+
+    display: block;
+    &:hover {
+      color: #5a2ea6;
+    }
+  }
 `;

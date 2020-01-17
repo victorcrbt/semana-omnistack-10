@@ -1,4 +1,5 @@
 import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom';
 
 import AuthContext from '~/AuthContext';
 import api from '~/services/api';
@@ -81,6 +82,8 @@ export default function LoginForm() {
         />
       </div>
       <button type="submit">Salvar</button>
+
+      <Link to="/cadastro">Não possui cadastro? Faça agora!</Link>
     </Container>
   );
 }

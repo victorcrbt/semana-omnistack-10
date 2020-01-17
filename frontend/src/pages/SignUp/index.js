@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 import api from '~/services/api';
 
@@ -146,7 +147,9 @@ export default function SignUp() {
           </div>
         </div>
 
-        <button type="submit">Salvar</button>
+        <button type="submit">Cadastrar</button>
+
+        <Link to="/">Já possui cadastro? Faça login!</Link>
       </Form>
     </Container>
   );

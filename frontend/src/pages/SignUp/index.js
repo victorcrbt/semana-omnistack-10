@@ -12,8 +12,9 @@ export default function SignUp() {
     latitude: '',
     longitude: '',
   });
-  const [error, setError] = useState({
+  const [message, setMessage] = useState({
     status: false,
+    type: '',
     message: '',
   });
 
@@ -34,8 +35,8 @@ export default function SignUp() {
   async function handleSubmit(e) {
     e.preventDefault();
 
-    if (error.status === true) {
-      setError({ ...error, status: false, message: '' });
+    if (message.status === true) {
+      setMessage({ status: false, type: '', message: '' });
     }
 
     try {
@@ -46,17 +47,30 @@ export default function SignUp() {
         latitude: location.latitude,
         longitude: location.longitude,
       });
+
+      setMessage({
+        ...message,
+        status: true,
+        type: 'success',
+        message: 'Usuário cadastrado com sucesso!',
+      });
+
+      setGithubUsername('');
+      setPassword('');
+      setTechs('');
     } catch (err) {
       if (err.response.status === 404) {
-        setError({
-          ...error,
+        setMessage({
+          ...message,
           status: true,
+          type: 'error',
           message: 'Usuário do GitHub não encontrado.',
         });
       } else {
-        setError({
-          ...error,
+        setMessage({
+          ...message,
           status: true,
+          type: 'error',
           message: 'Algo de errado aconteceu :/.',
         });
       }
@@ -65,9 +79,9 @@ export default function SignUp() {
 
   return (
     <Container>
-      <Form onSubmit={handleSubmit} error={error.status}>
+      <Form onSubmit={handleSubmit} message={message}>
         <h2>Cadastro</h2>
-        <div className="error">{error.status && error.message}</div>
+        <div className="message">{message.status && message.message}</div>
 
         <div className="input-block">
           <label htmlFor="github_username">Usuário do github</label>

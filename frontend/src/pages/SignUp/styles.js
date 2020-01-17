@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.aside`
   width: 100%;
@@ -45,13 +45,19 @@ export const Form = styled.form`
     display: block;
   }
 
-  .error {
-    padding: ${props => props.error && '10px'};
+  .message {
+    padding: ${props => props.message.status && '10px'};
 
-    background: rgba(255, 0, 0, 0.2);
-    color: rgba(255, 0, 0, 0.6);
+    background: ${props =>
+      props.message.type === 'error'
+        ? 'rgba(255, 0, 0, 0.2)'
+        : 'rgba(0, 255, 0, 0.2)'};
+    color: ${props =>
+      props.message.type === 'error'
+        ? 'rgba(255, 0, 0, 0.6)'
+        : 'rgba(0, 155, 0, 0.6)'};
     border-radius: 4px;
-    opacity: ${props => (props.error ? '1' : '0')};
+    opacity: ${props => (props.message.status ? '1' : '0')};
     transition: opacity 0.4s;
 
     display: flex;

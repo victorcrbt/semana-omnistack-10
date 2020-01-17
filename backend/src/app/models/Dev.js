@@ -5,6 +5,7 @@ class Dev extends Model {
   static init(sequelize) {
     super.init(
       {
+        name: Sequelize.STRING,
         github_username: Sequelize.STRING,
         bio: Sequelize.TEXT,
         avatar_url: Sequelize.STRING,

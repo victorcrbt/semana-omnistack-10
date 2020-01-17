@@ -61,6 +61,36 @@ class DevController {
       return res.status(500).json({ error: 'Internal server error.' });
     }
   }
+
+  async update(req, res) {
+    const { name, techs, latitude, longitude, password } = req.body;
+
+    const techsArray = parseStringAsArray(techs, ',');
+
+    const location = {
+      type: 'Point',
+      coordinates: [longitude, latitude],
+    };
+
+    try {
+      const dev = await Dev.findByPk(req.dev_id);
+
+      await dev.update({
+        name,
+        password,
+        techs: techsArray,
+        location,
+      });
+
+      const updatedDev = await Dev.findByPk(req.dev_id, {
+        attributes: ['id', 'name', 'avatar_url', 'techs', 'location'],
+      });
+
+      return res.status(200).json(updatedDev);
+    } catch (error) {
+      return res.status(500).json({ error: error.status });
+    }
+  }
 }
 
 export default new DevController();

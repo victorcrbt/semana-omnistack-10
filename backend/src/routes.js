@@ -14,5 +14,6 @@ routes.get('/search', SearchController.index);
 
 routes.use(authMiddleware);
 routes.get('/devs', DevController.index);
+routes.put('/devs', DevController.update);
 
 export default routes;

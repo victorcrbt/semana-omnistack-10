@@ -12,7 +12,7 @@ class SearchController {
     const devs = await Dev.findAll({
       where: {
         [Op.and]: [
-          { techs: { [Op.contains]: techsArray } },
+          { techs: { [Op.overlap]: techsArray } },
           Sequelize.fn(
             'ST_DWithin',
             Sequelize.col('location'),

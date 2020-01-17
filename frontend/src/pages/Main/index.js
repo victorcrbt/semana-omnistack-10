@@ -11,14 +11,10 @@ export default function Main() {
   const { signed } = useContext(AuthContext);
 
   const [devs, setDevs] = useState([]);
-  const [error, setError] = useState({
-    status: false,
-    message: '',
-  });
 
   useEffect(() => {
     async function fetchDevsFromApi() {
-      if (!signed) return;
+      if (!signed || devs.length > 0) return;
 
       const response = await api.get('/devs');
 
@@ -35,7 +31,7 @@ export default function Main() {
       <MainContent signed={signed}>
         <ul>
           {devs.map(dev => (
-            <DevItem key={dev._id} dev={dev} signed={signed} />
+            <DevItem key={dev.id} dev={dev} signed={signed} />
           ))}
         </ul>
       </MainContent>

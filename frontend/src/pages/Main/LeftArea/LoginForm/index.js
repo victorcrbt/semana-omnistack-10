@@ -26,7 +26,8 @@ export default function LoginForm() {
     try {
       const response = await api.post('/sessions', { username, password });
 
-      api.defaults.headers.Authorization = `Bearer ${response.datatoken}`;
+      api.defaults.headers.Authorization = `Bearer ${response.data.token}`;
+
       context.setAuth({
         ...context,
         ...response.data,
